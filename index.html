@@ -158,8 +158,14 @@
 body.career-modal-open{overflow:hidden}
 @media(max-width:650px){#career .career-deck{height:420px;margin:20px -20px 0}#career .career-slide{height:370px;width:min(78vw,345px);padding:23px 23px 20px}#career .career-slide h3{font-size:clamp(22px,6vw,29px)}#career .career-index,#career .career-card-bottom>span{font-size:9px}#career .career-modal-panel{padding:32px 24px;max-height:85dvh}}
 
+/* V10: continuous, soft layered career transitions */
+#career .career-deck{isolation:isolate;perspective:1600px}
+#career .career-slide,#career .career-slide:not(.is-visible){visibility:visible;pointer-events:none;transition:transform 1.12s cubic-bezier(.22,1,.36,1),opacity .95s cubic-bezier(.22,1,.36,1),filter 1.05s ease;transform-origin:50% 55%;will-change:transform,opacity}
+#career .career-slide.is-visible{pointer-events:auto}
+#career .career-slide.is-active{pointer-events:auto}
+@media(prefers-reduced-motion:reduce){#career .career-slide{transition:none!important}}
 /* V9: refined career editorial interactions */
-#career .career-slide{transition:transform .82s cubic-bezier(.22,1,.36,1),opacity .65s ease,filter .65s ease;backface-visibility:hidden;will-change:transform}
+#career .career-slide{transition:transform 1.12s cubic-bezier(.22,1,.36,1),opacity .95s cubic-bezier(.22,1,.36,1),filter 1.05s ease;backface-visibility:hidden;will-change:transform,opacity}
 #career .career-more{display:inline-flex;align-items:center;gap:13px;letter-spacing:.015em;transition:color .2s ease}
 #career .career-more .career-arrow{font-family:Arial,sans-serif;font-size:23px;font-weight:300;line-height:1;margin:0;display:inline-block;transition:transform .25s ease}
 #career .career-more:hover .career-arrow{transform:translateX(5px)}
@@ -427,11 +433,11 @@ body.career-modal-open{overflow:hidden}
  const deck=document.getElementById('career-deck');if(!deck)return;
  const slides=[...deck.querySelectorAll('.career-slide')];let current=0,startX=null,startY=null;
  const counter=document.querySelector('#career .career-counter');
- function render(){const mobile=window.innerWidth<650;const step=mobile?205:355;
- slides.forEach((slide,i)=>{let d=i-current;slide.classList.remove('is-active','is-side','is-visible');slide.style.zIndex=String(10-Math.abs(d));
- if(Math.abs(d)>2){slide.style.setProperty('--opacity','0');slide.style.setProperty('--x',`${Math.sign(d)*step*1.5}px`);slide.style.setProperty('--z','-250px');slide.style.setProperty('--ry',`${Math.sign(d)*-38}deg`);slide.style.setProperty('--scale','.68');slide.style.setProperty('--brightness','.65');slide.setAttribute('aria-hidden','true');slide.querySelectorAll('details').forEach(x=>x.open=false);return}
+ function render(){const mobile=window.innerWidth<650;const step=mobile?145:260;
+ slides.forEach((slide,i)=>{let d=i-current;slide.classList.remove('is-active','is-side','is-visible');slide.style.zIndex=String(20-Math.abs(d));
+ if(Math.abs(d)>2){slide.style.setProperty('--opacity','0');slide.style.setProperty('--x',`${Math.sign(d)*step*2.1}px`);slide.style.setProperty('--z','-320px');slide.style.setProperty('--ry',`${Math.sign(d)*-14}deg`);slide.style.setProperty('--scale','.68');slide.style.setProperty('--brightness','.65');slide.setAttribute('aria-hidden','true');slide.querySelectorAll('details').forEach(x=>x.open=false);return}
  slide.classList.add('is-visible');if(d===0)slide.classList.add('is-active');else slide.classList.add('is-side');
- slide.style.setProperty('--opacity',Math.abs(d)===2?'.22':d===0?'1':'.64');slide.style.setProperty('--x',`${d*step}px`);slide.style.setProperty('--z',`${Math.abs(d)*-175}px`);slide.style.setProperty('--ry',`${d*-39}deg`);slide.style.setProperty('--scale',d===0?'1':'.85');slide.style.setProperty('--brightness',d===0?'1':'.7');slide.setAttribute('aria-hidden',d===0?'false':'true');
+ slide.style.setProperty('--opacity',Math.abs(d)===2?'.18':d===0?'1':'.52');slide.style.setProperty('--x',`${d*step}px`);slide.style.setProperty('--z',`${Math.abs(d)*-110}px`);slide.style.setProperty('--ry',`${d*-12}deg`);slide.style.setProperty('--scale',d===0?'1':'.91');slide.style.setProperty('--brightness',d===0?'1':'.7');slide.setAttribute('aria-hidden',d===0?'false':'true');
  if(d!==0)slide.querySelectorAll('details').forEach(x=>x.open=false);
  });counter.textContent=`${String(current+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
  }
