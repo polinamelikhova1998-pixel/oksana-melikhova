@@ -140,6 +140,24 @@
 #results .cinematic-panel:last-child {margin-bottom:0}
 @media(max-width:700px){#results .cinematic-results{padding:4vh 0 13vh}#results .cinematic-panel{top:13vh;min-height:65vh;margin-bottom:28vh;padding:34px 25px;border-radius:19px}#results .cinematic-panel strong{font-size:clamp(68px,16vw,110px)}#results .cinematic-panel h3{font-size:25px}#results .cinematic-panel p{font-size:16px}}
 @media(prefers-reduced-motion:reduce){#results .cinematic-panel{transition:none!important;transform:none!important;filter:none!important}}
+
+/* Compact cinematic results: short scroll, same layered motion */
+#results {padding-top:70px;padding-bottom:65px}
+#results .section-head{margin-bottom:25px}
+#results .cinematic-results{padding:12px 0 24px}
+#results .cinematic-panel{top:90px;min-height:245px;margin-bottom:105px;padding:28px 34px;border-radius:18px;justify-content:center}
+#results .cinematic-panel strong{font-size:clamp(58px,9vw,105px);line-height:1}
+#results .cinematic-panel h3{font-size:clamp(19px,2.5vw,27px);margin:16px 0 8px}
+#results .cinematic-panel p{font-size:clamp(12px,1.4vw,15px);line-height:1.5;margin:0}
+@media(max-width:700px){
+ #results{padding-top:55px;padding-bottom:45px}
+ #results .section-head{margin-bottom:18px}
+ #results .cinematic-results{padding:5px 0 12px}
+ #results .cinematic-panel{top:85px;min-height:210px;margin-bottom:82px;padding:23px 24px;border-radius:16px}
+ #results .cinematic-panel strong{font-size:clamp(55px,14vw,80px)}
+ #results .cinematic-panel h3{font-size:19px;margin:12px 0 7px}
+ #results .cinematic-panel p{font-size:12px;line-height:1.5}
+}
 </style><style>
 /* V8: restrained executive editorial carousel */
 #career .career-deck{height:475px;margin-top:30px;overflow:visible}
@@ -495,9 +513,9 @@ modal.querySelector('.career-modal-close').addEventListener('click',close);modal
  const cards=[...document.querySelectorAll('#results .cinematic-panel')];
  if(!cards.length||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  let scheduled=false;
- function update(){scheduled=false;const top=innerHeight*.15;
+ function update(){scheduled=false;const top=window.innerWidth<=700?85:90;
  cards.forEach((card,i)=>{const next=cards[i+1];if(!next){card.style.transform='';card.style.filter='';return;}
- const progress=Math.max(0,Math.min(1,(top+innerHeight*.48-next.getBoundingClientRect().top)/(innerHeight*.48)));
+ const progress=Math.max(0,Math.min(1,(top+145-next.getBoundingClientRect().top)/145));
  card.style.transform=`scale(${1-progress*.065}) translateY(${-progress*10}px)`;
  card.style.filter=`brightness(${1-progress*.22})`;
  });}
